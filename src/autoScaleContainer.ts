@@ -21,23 +21,28 @@ const autoScale = (width: number, height: number, ignore: ignoreList) => {
 
   // Ignore style set
   const ignoreStyleDOM = document.querySelector("#ignoreStyle");
-  if (ignoreStyleDOM) {
+  if (ignoreStyleDOM && ignore.length) {
     ignoreStyleDOM.innerHTML = "";
-
-    for (let item of ignore) {
+    for (const item of ignore) {
       let ignoreElement;
-      let ignoreScale;
+      let ignoreScale = 1;
       let ignoreWidth;
       let ignoreHeight;
       let ignoreFontSize;
 
       typeof item === "string" && (ignoreElement = item);
+      console.log(Scale);
       if (typeof item === "object") {
         ignoreElement = item.el;
         ignoreScale = item.scale ? item.scale : 1 / Scale;
-        ignoreWidth = item.scale !== Scale ? item.width : "something";
-        ignoreHeight = item.scale !== Scale ? item.height : "something";
-        ignoreFontSize = item.scale !== Scale ? item.fontSize : "something";
+        ignoreWidth = item.scale !== Scale ? item.width : ignoreWidth;
+        ignoreHeight = item.scale !== Scale ? item.height : ignoreHeight;
+        ignoreFontSize = item.scale !== Scale ? item.fontSize : ignoreFontSize;
+      } else {
+        ignoreScale = 1 / Scale;
+        ignoreWidth = "Nothing";
+        ignoreHeight = "Nothing";
+        ignoreFontSize = "Nothing";
       }
 
       if (!ignoreElement) {
@@ -92,10 +97,16 @@ function autoScaleContainer(options: DefaultOptions) {
   RenderContainer.style.overflow = `hidden`;
 
   // Run scale
-  autoScale(Options.designWidth, Options.designHeight, Options.ignore);
+  autoScale(Options.designWidth!, Options.designHeight!, Options.ignore!);
 
   if (Options.resize) {
-    ResizeScale = Debounce(autoScale, Options.delay);
+    ResizeScale = Debounce(
+      autoScale,
+      Options.delay!,
+      Options.designWidth,
+      Options.designHeight,
+      Options.ignore
+    );
     window.addEventListener("resize", ResizeScale);
   }
 

@@ -1,8 +1,12 @@
 import type { DefaultObjectOptions, DefaultOptions } from "../types";
 
-export const Debounce = (fn: Function, delay: number): Function => {
+export const Debounce = (
+  fn: Function,
+  delay: number,
+  ...args: any[]
+): Function => {
   let timer: any = null;
-  return function (this: any, ...args: any[]) {
+  return function (this: any) {
     if (timer) return;
     timer = setTimeout(() => {
       fn.apply(this, args);
