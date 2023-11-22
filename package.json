@@ -1,0 +1,25 @@
+{
+  "name": "auto-scale-container",
+  "version": "1.0.0",
+  "description": "A container plug-in that adapts based on screen resolution size",
+  "main": "./dist/autoScaleContainer.mjs",
+  "type": "module",
+  "types": "./dist/autoScaleContainer.d.ts",
+  "exports":{
+    ".":{
+      "import":"./dist/autoScaleContainer.mjs",
+      "require": "./dist/autoScaleContainer.cjs"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build":"unbuild"
+  },
+  "keywords": [],
+  "author": "Harexs",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.3.2",
+    "unbuild": "^2.0.0"
+  }
+}
